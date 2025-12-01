@@ -5,4 +5,22 @@
 @theme {
     --font-Quicksand: "Quicksand", sans-serif;
     --font-bebas: "Bebas Neue", serif;
+    @keyframes bounce{
+        50%{
+            transform: translateY(-15px);
+        }
+    }
+}
+
+.dot{
+    @apply w-8 h-8 bg-amber-500 rounded-full animate-bounce ring-1 ring-amber-400/50 ;
+}
+
+.middle-dot{
+    animation-delay: 0.2s;
+}
+
+
+.last-dot{
+    animation-delay: 0.3s;
 }
