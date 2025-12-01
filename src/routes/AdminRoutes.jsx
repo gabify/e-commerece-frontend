@@ -4,15 +4,13 @@ import Products from "../pages/admin/Products";
 import Orders from "../pages/admin/Orders";
 import Categories from "../pages/admin/Categories";
 
-const AdminRoutes = () =>{
-    return(
-        <>
-            <Route path="/admin" element={<Dashboard />}/>
-            <Route path="/admin/products" element={<Products />}/>
-            <Route path="/admin/orders" element={<Orders />}/>
-            <Route path="/admin/categories" element={<Categories />}/>
-        </>
-    )
-}
+const AdminRoutes = (
+    <>
+        <Route path="/admin" element={<Dashboard />}/>
+        <Route path="/admin/products" element={<Products />}/>
+        <Route path="/admin/orders" element={<Orders />}/>
+        <Route path="/admin/categories" element={<Categories />}/>
+    </>
+)
 
 export default AdminRoutes;
