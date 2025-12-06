@@ -1,7 +1,7 @@
 const Footer =  () =>{
     return(
         <>
-            <footer className="py-5 font-Quicksand border-t-2 border-t-gray-100">
+            <footer className="font-Quicksand border-t-2 border-t-gray-100">
                 <section className="grid grid-cols-2 lg:grid-cols-4 p-5 place-items-center-safe">
                         <ul>
                             <li>
