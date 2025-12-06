@@ -1,4 +1,4 @@
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext.jsx';
 import EscapeHtml from "../../utils/EscapeHtml.jsx";
@@ -11,7 +11,7 @@ import Welcome from "../../assets/welcome_img.svg";
 const Login = () =>{
     const api = import.meta.env.VITE_API;
     const navigate = useNavigate();
-    const {dispatch} = useAuthContext()
+    const {user, dispatch} = useAuthContext()
     const [showPassword, setShowPassword] = useState(false);
                                                                     
     const [error, login, isPending] = useActionState(
@@ -49,13 +49,26 @@ const Login = () =>{
             //save token to session
             localStorage.setItem('user', JSON.stringify(result.message[1].user));
             dispatch({type: 'LOGIN', payload: result.message[1].user});
-
-            //navigate to dashboard
-            navigate('/')
+            navigate('/loading')
         },
 
         null
-    ); 
+    );
+    
+    useEffect(() =>{
+        if(!user) return;
+        
+        if(user.type === 'customer'){
+            //navigate to home page
+            navigate('/')
+        }
+
+        if(user.type === 'admin'){
+            //navigate to home page
+            navigate('/admin')
+        }
+    }, [user])
+
     
 
     return(
