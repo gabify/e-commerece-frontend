@@ -1,11 +1,62 @@
-import { useState } from "react";
+import { useActionState, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../hooks/useAuthContext.jsx';
+import EscapeHtml from "../../utils/EscapeHtml.jsx";
 import Footer from "../../components/Footer.jsx";
 import Header from "../../components/Header.jsx";
 import Main from "../../components/Main.jsx";
+import Error from "../../components/Error.jsx";
 import Welcome from "../../assets/welcome_img.svg";
 
 const Login = () =>{
+    const api = import.meta.env.VITE_API;
+    const navigate = useNavigate();
+    const {dispatch} = useAuthContext()
     const [showPassword, setShowPassword] = useState(false);
+                                                                    
+    const [error, login, isPending] = useActionState(
+        async (prevState, formData) => {
+            let loginAttempt = prevState?.errorCount ?? 0;
+
+            //validate input using regex
+            const user = {
+                email: EscapeHtml(formData.get("email")),
+                password: EscapeHtml(formData.get("password"))
+            };
+
+            const response = await fetch(`${api}user/login`, {
+                method: "POST",
+                headers: {
+                    'Content-Type'  : 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
+
+            const result = await response.json();
+
+             //Check how many attempts the user does
+            if(!result.success && loginAttempt > 2){
+                return{message: "Oops! Too many attempts. Try again after 15 minutes.", errorCount: loginAttempt}
+            }
+            
+            if(!result.success){
+                return {
+                    message: `${result.message} Attempt: ${loginAttempt}`, 
+                    errorCount: loginAttempt === 0 ? 1 : loginAttempt++,
+                };
+            }
+
+            //save token to session
+            localStorage.setItem('user', JSON.stringify(result.message[1].user));
+            dispatch({type: 'LOGIN', payload: result.message[1].user});
+
+            //navigate to dashboard
+            navigate('/')
+        },
+
+        null
+    ); 
+    
 
     return(
         <>
@@ -28,11 +79,11 @@ const Login = () =>{
                         <img src={Welcome} alt="Welcome Image" className="w-96"/>
                     </article>
                     <article className="max-lg:bg-white max-lg:shadow-sm max-lg:rounded-2xl pb-5 pt-10 px-5 min-w-64 sm:w-96 lg:w-72 place-self-center-safe col-span-2 lg:col-span-1">
-                        <div className="text-center mb-10">
+                        <div className="text-center mb-5">
                             <h1 className="font-bebas text-3xl">Welcome back!</h1>
                             <p className="font-light tracking-wide -mt-1">Please log in to your account</p>
                         </div>
-                        <form action="" className="mb-10">
+                        <form action={login} className="mb-10">
                             <div className="grid grid-col-1 mb-3">
                                 <label htmlFor="email" className="text-sm mb-1.5 text-gray-600">Email</label>
                                 <input 
@@ -41,6 +92,7 @@ const Login = () =>{
                                     id="email" 
                                     className="border-2 border-gray-400 rounded-md py-2 px-3"
                                     placeholder="juan.delacruz@email.com"
+                                    required
                                 />
                             </div>
 
@@ -51,6 +103,7 @@ const Login = () =>{
                                     name="password" 
                                     id="password" 
                                     className="border-2 border-gray-400 rounded-md py-2 px-3"
+                                    required
                                 />
                             </div>
 
@@ -62,14 +115,17 @@ const Login = () =>{
 
                                <a href="http://" className="text-xs text-amber-500 hover:underline underline-offset-2">Forgot Password?</a>
                             </div>
-
+                             {error && <Error message={error.message} />}
                             <div className="grid grid-cols-1">
-                                <button type="submit" className="bg-amber-500 hover:bg-amber-400 py-3 rounded-xl text-gray-50 font-black text-lg cursor-pointer">Log in</button>
+                                <button type="submit" disabled={isPending || error?.errorCount >= 3} className={`py-3 rounded-xl text-gray-50 font-black text-lg ${isPending || error?.errorCount >= 3 ? 'cursor-not-allowed bg-amber-400' : 'cursor-pointer bg-amber-500 hover:bg-amber-400'}`}>
+                                   {isPending ? 'Loading...' : 'Log in'}
+                                </button>
                             </div>
                         </form>
 
                         <small>No account yet? Register <a href="" className="text-amber-500 hover:underline">here</a></small>
                     </article>
+                    
                 </section>
             </Main>
 
