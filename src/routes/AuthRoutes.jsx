@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const AuthRoutes = () =>{
-    const {user} = useAuthContext();
+    const {user} = use(AuthContext);
 
     if(user){
        if(user.type === 'admin'){

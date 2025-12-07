@@ -1,6 +1,7 @@
-import { useActionState, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../hooks/useAuthContext.jsx';
+import { use, useActionState, useState } from "react";
+
+import { AuthContext } from "../../context/AuthContext.jsx";
+
 import EscapeHtml from "../../utils/EscapeHtml.jsx";
 import Footer from "../../components/Footer.jsx";
 import Header from "../../components/Header.jsx";
@@ -10,13 +11,14 @@ import Welcome from "../../assets/welcome_img.svg";
 
 const Login = () =>{
     const api = import.meta.env.VITE_API;
-    const navigate = useNavigate();
-    const {user, dispatch} = useAuthContext()
+    const {dispatch} = use(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
                                                                     
     const [error, login, isPending] = useActionState(
         async (prevState, formData) => {
-            let loginAttempt = prevState?.errorCount ?? 0;
+
+            const previousAttempts = prevState?.errorCount ?? 0;
+            let loginAttempt = previousAttempts;
 
             //validate input using regex
             const user = {
@@ -24,7 +26,7 @@ const Login = () =>{
                 password: EscapeHtml(formData.get("password"))
             };
 
-            const response = await fetch(`${api}user/login`, {
+            const response =  await fetch(`${api}user/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type'  : 'application/json'
@@ -34,42 +36,29 @@ const Login = () =>{
 
             const result = await response.json();
 
-             //Check how many attempts the user does
-            if(!result.success && loginAttempt > 2){
-                return{message: "Oops! Too many attempts. Try again after 15 minutes.", errorCount: loginAttempt}
-            }
-            
             if(!result.success){
+                loginAttempt++;
+
+                 //Check how many attempts the user does
+                if(loginAttempt >= 3){
+                    return{message: "Oops! Too many attempts. Try again after 15 minutes.", errorCount: loginAttempt}
+                }
+
                 return {
                     message: `${result.message} Attempt: ${loginAttempt}`, 
-                    errorCount: loginAttempt === 0 ? 1 : loginAttempt++,
+                    errorCount: loginAttempt,
                 };
             }
 
             //save token to session
             localStorage.setItem('user', JSON.stringify(result.message[1].user));
             dispatch({type: 'LOGIN', payload: result.message[1].user});
-            navigate('/loading')
+
+            return {message: null, errorCount: 0}
         },
 
         null
     );
-    
-    useEffect(() =>{
-        if(!user) return;
-        
-        if(user.type === 'customer'){
-            //navigate to home page
-            navigate('/')
-        }
-
-        if(user.type === 'admin'){
-            //navigate to home page
-            navigate('/admin')
-        }
-    }, [user])
-
-    
 
     return(
         <>
