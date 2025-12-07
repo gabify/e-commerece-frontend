@@ -1,5 +1,4 @@
-import { use, useActionState, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { use, useActionState, useState } from "react";
 
 import { AuthContext } from "../../context/AuthContext.jsx";
 
@@ -12,13 +11,14 @@ import Welcome from "../../assets/welcome_img.svg";
 
 const Login = () =>{
     const api = import.meta.env.VITE_API;
-    const navigate = useNavigate();
-    const {user, dispatch} = use(AuthContext);
+    const {dispatch} = use(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
                                                                     
     const [error, login, isPending] = useActionState(
         async (prevState, formData) => {
-            let loginAttempt = prevState?.errorCount ?? 0;
+
+            const previousAttempts = prevState?.errorCount ?? 0;
+            let loginAttempt = previousAttempts;
 
             //validate input using regex
             const user = {
@@ -54,29 +54,11 @@ const Login = () =>{
             localStorage.setItem('user', JSON.stringify(result.message[1].user));
             dispatch({type: 'LOGIN', payload: result.message[1].user});
 
-            return null;
+            return {message: null, errorCount: 0}
         },
 
         null
     );
-    
-    useEffect(() =>{
-        if(!user) return;
-        
-        if(user.type === 'customer'){
-            //Fetch cart items
-            
-            //navigate to home page
-            navigate('/')
-        }
-
-        if(user.type === 'admin'){
-            //navigate to home page
-            navigate('/admin')
-        }
-    }, [user])
-
-    
 
     return(
         <>
