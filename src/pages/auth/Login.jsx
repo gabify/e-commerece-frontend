@@ -1,6 +1,8 @@
-import { useActionState, useEffect, useState } from "react";
+import { use, useActionState, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../hooks/useAuthContext.jsx';
+
+import { AuthContext } from "../../context/AuthContext.jsx";
+
 import EscapeHtml from "../../utils/EscapeHtml.jsx";
 import Footer from "../../components/Footer.jsx";
 import Header from "../../components/Header.jsx";
@@ -11,7 +13,7 @@ import Welcome from "../../assets/welcome_img.svg";
 const Login = () =>{
     const api = import.meta.env.VITE_API;
     const navigate = useNavigate();
-    const {user, dispatch} = useAuthContext()
+    const {user, dispatch} = use(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
                                                                     
     const [error, login, isPending] = useActionState(

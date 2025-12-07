@@ -1,6 +1,6 @@
 import { BrowserRouter,  Route, Routes} from "react-router-dom";
-import {useAuthContext} from '../src/hooks/useAuthContext.jsx';
-import { Navigate } from "react-router-dom";
+import { use } from "react";
+import { AuthContext } from "./context/AuthContext.jsx";
 
 import Home from "../src/pages/public/Home";
 import PublicProducts from "../src/pages/public/Products";
@@ -31,8 +31,9 @@ import CustomerRoutes from "../src/routes/CustomerRoutes.jsx";
 import AdminRoutes from "../src/routes/AdminRoutes.jsx";
 
 
+
 function App() {
-  const {user, isLoading} = useAuthContext();
+  const {isLoading} = use(AuthContext);
 
   if(isLoading){
     return <Loading />

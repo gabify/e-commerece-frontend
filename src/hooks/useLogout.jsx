@@ -1,7 +1,8 @@
-import { useAuthContext } from "./useAuthContext";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const useLogout = () =>{
-    const {dispatch} = useAuthContext();
+    const {dispatch} = use(AuthContext);
 
     const logout = () =>{
         localStorage.removeItem("user");

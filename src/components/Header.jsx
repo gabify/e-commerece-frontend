@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { use, useState } from "react";
 import { useLogout } from "../hooks/useLogout";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Header = () =>{
     const [isShown, setIshown] = useState(false);
-    const {user} = useAuthContext();
+    const {user} = use(AuthContext);
     const {logout} = useLogout();
     const navigate = useNavigate();
 
