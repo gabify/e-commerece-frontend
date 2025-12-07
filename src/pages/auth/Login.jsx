@@ -1,4 +1,5 @@
 import { use, useActionState, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../context/AuthContext.jsx";
 
@@ -125,7 +126,7 @@ const Login = () =>{
                             </div>
                         </form>
 
-                        <small>No account yet? Register <a href="" className="text-amber-500 hover:underline">here</a></small>
+                        <small>No account yet? Register <Link to={'/register'} className="text-amber-500 hover:underline">here</Link></small>
                     </article>
                     
                 </section>
