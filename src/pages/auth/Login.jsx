@@ -26,7 +26,7 @@ const Login = () =>{
                 password: EscapeHtml(formData.get("password"))
             };
 
-            const response = await fetch(`${api}user/login`, {
+            const response =  await fetch(`${api}user/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type'  : 'application/json'
@@ -36,22 +36,25 @@ const Login = () =>{
 
             const result = await response.json();
 
-             //Check how many attempts the user does
-            if(!result.success && loginAttempt > 2){
-                return{message: "Oops! Too many attempts. Try again after 15 minutes.", errorCount: loginAttempt}
-            }
-            
             if(!result.success){
+                loginAttempt++;
+
+                 //Check how many attempts the user does
+                if(loginAttempt >= 3){
+                    return{message: "Oops! Too many attempts. Try again after 15 minutes.", errorCount: loginAttempt}
+                }
+
                 return {
                     message: `${result.message} Attempt: ${loginAttempt}`, 
-                    errorCount: loginAttempt === 0 ? 1 : loginAttempt++,
+                    errorCount: loginAttempt,
                 };
             }
 
             //save token to session
             localStorage.setItem('user', JSON.stringify(result.message[1].user));
             dispatch({type: 'LOGIN', payload: result.message[1].user});
-            navigate('/loading')
+
+            return null;
         },
 
         null
@@ -61,6 +64,8 @@ const Login = () =>{
         if(!user) return;
         
         if(user.type === 'customer'){
+            //Fetch cart items
+            
             //navigate to home page
             navigate('/')
         }
