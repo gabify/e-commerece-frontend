@@ -1,5 +1,5 @@
-import { useState } from "react";   
-import { Link } from "react-router-dom"
+import { useActionState, useState } from "react";   
+import { Link, useNavigate } from "react-router-dom"
 
 import EscapeHtml from "../../utils/EscapeHtml.jsx";
 import Footer from "../../components/Footer.jsx";
@@ -9,8 +9,49 @@ import Error from "../../components/Error.jsx";
 import Welcome from "../../assets/welcome_img.svg";
 
 const Register = () =>{
+    const api = import.meta.env.VITE_API;
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const [showRetryPassword, setShowRetryPassword] = useState(false);
+
+    const [error, register, isPending] = useActionState(
+        async (prevState, e) =>{
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+
+            const user = {
+                name: EscapeHtml(formData.get("name")),
+                email: EscapeHtml(formData.get("email")),
+                password: EscapeHtml(formData.get("password")),
+                reTryPassword: EscapeHtml(formData.get("retryPassword"))
+            };
+
+            if(user.password !== user.reTryPassword){
+                return {message: 'Password does not match.'}
+            }
+
+            const response =  await fetch(`${api}user/register`, {
+                method: "POST",
+                headers: {
+                    'Content-Type'  : 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
+
+            const result = await response.json();
+
+            console.log(result)
+
+            if(!response.ok){
+                return {message: result.message}
+            }
+
+            navigate('/login')
+        },
+
+        null
+    );
 
     return(
         <>
@@ -36,7 +77,7 @@ const Register = () =>{
                             <h1 className="font-bebas text-3xl">Create New Account!</h1>
                             <p className="font-light tracking-wide -mt-1">Please fill out the form carefully to create an account.</p>
                         </div>
-                        <form className="mb-8">
+                        <form onSubmit={register} className="mb-8">
                             <div className="grid grid-col-1 mb-3">
                                 <label htmlFor="email" className="text-sm mb-1.5 text-gray-600 font-semibold">Name</label>
                                 <input 
@@ -98,7 +139,7 @@ const Register = () =>{
                                 <div className="relative">
                                     <input 
                                         type={showRetryPassword ? 'text' : 'password'} 
-                                        name="password" 
+                                        name="retryPassword" 
                                         id="retryPassword" 
                                         className="border-2 border-gray-400 rounded-md py-2 px-3 w-full outline-0 focus:border-amber-500 focus:shadow-2xs"
                                         required
@@ -126,9 +167,10 @@ const Register = () =>{
                                     </div>
                                 </div>
                             </div>
+                            {error && <Error message={error.message} />}
                             <div className="grid grid-cols-1">
-                                <button type="submit" className={`py-3 rounded-xl text-gray-50 font-black text-lg cursor-pointer bg-amber-500 hover:bg-amber-400`}>
-                                    Register
+                                <button type="submit" disabled={isPending} className={`py-3 rounded-xl text-gray-50 font-black text-lg ${isPending || error?.errorCount >= 3 ? 'cursor-not-allowed bg-amber-400' : 'cursor-pointer bg-amber-500 hover:bg-amber-400'}`}>
+                                    {isPending ? 'Loading...' : 'Register'}
                                 </button>
                             </div>
                         </form>
