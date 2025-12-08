@@ -1,4 +1,5 @@
 import { use, useActionState, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { AuthContext } from "../../context/AuthContext.jsx";
 
@@ -92,31 +93,47 @@ const Login = () =>{
                                     type="email" 
                                     name="email" 
                                     id="email" 
-                                    className="border-2 border-gray-400 rounded-md py-2 px-3"
+                                    className="border-2 border-gray-400 rounded-md py-2 px-3 outline-0 focus:border-amber-500 focus:shadow-2xs"
                                     placeholder="juan.delacruz@email.com"
                                     required
                                 />
                             </div>
 
-                            <div className="grid grid-col-1 mb-3">
-                                <label htmlFor="password" className="text-sm mb-1.5 text-gray-600">Password</label>
-                                <input 
-                                    type={showPassword ? 'text' : 'password'} 
-                                    name="password" 
-                                    id="password" 
-                                    className="border-2 border-gray-400 rounded-md py-2 px-3"
-                                    required
-                                />
+                            <div className="grid grid-col-1 mb-2">
+                                <label htmlFor="password" className="text-sm mb-1.5 text-gray-600 font-semibold">Password</label>
+                                <div className="relative">
+                                    <input 
+                                        type={showPassword ? 'text' : 'password'} 
+                                        name="password" 
+                                        id="password" 
+                                        className="border-2 border-gray-400 rounded-md py-2 px-3 w-full outline-0 focus:border-amber-500 focus:shadow-2xs"
+                                        required
+                                    />
+                                    <div className="absolute bottom-3 right-2">
+                                        <label htmlFor="showPassword" className="text-xs cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                name="showPassword" 
+                                                id="showPassword" 
+                                                onChange={()=> setShowPassword(!showPassword)} 
+                                                className="appearance-none"
+                                            />
+                                            {showPassword ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 text-amber-500">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                                </svg>
+                                            ) : (
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 text-amber-500">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
+                                            )}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+                            <a href="http://" className="text-xs text-amber-500 hover:underline underline-offset-2 mb-5 block">Forgot Password?</a>
 
-                            <div className="flex justify-between mb-5">
-                               <div className="flex items-center-safe gap-0.5">
-                                 <input type="checkbox" name="showPassword" id="showPassword" onChange={()=> setShowPassword(!showPassword)}/>
-                                 <small className="text-xs">Show Password</small>
-                               </div>
-
-                               <a href="http://" className="text-xs text-amber-500 hover:underline underline-offset-2">Forgot Password?</a>
-                            </div>
                              {error && <Error message={error.message} />}
                             <div className="grid grid-cols-1">
                                 <button type="submit" disabled={isPending || error?.errorCount >= 3} className={`py-3 rounded-xl text-gray-50 font-black text-lg ${isPending || error?.errorCount >= 3 ? 'cursor-not-allowed bg-amber-400' : 'cursor-pointer bg-amber-500 hover:bg-amber-400'}`}>
@@ -125,7 +142,7 @@ const Login = () =>{
                             </div>
                         </form>
 
-                        <small>No account yet? Register <a href="" className="text-amber-500 hover:underline">here</a></small>
+                        <small>No account yet? Register <Link to={'/register'} className="text-amber-500 hover:underline">here</Link></small>
                     </article>
                     
                 </section>
