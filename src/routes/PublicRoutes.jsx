@@ -5,7 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 const PublicRoutes = () =>{
     const {user} = use(AuthContext);
 
-    if(user.type === 'admin') return <Navigate to={'/admin'} replace/>
+    if(user){
+        if(user.type === 'admin') return <Navigate to={'/admin'} replace/>
+    }
 
     return <Outlet />
 }
