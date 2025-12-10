@@ -18,8 +18,8 @@ const Carousel = ({
     }, [])
 
     return(
-        <article className="m-2 rounded-md overflow-hidden relative snap-x snap-mandatory">
-            <div className="flex w-screen transition-transform ease-out duration-500" style={{transform: `translateX(-${current * 100}%)`}}>
+        <article className="m-2 rounded-md overflow-hidden relative snap-x snap-mandatory lg:w-4xl xl:w-5xl">
+            <div className="flex w-screen sm:h-54 md:h-72 lg:h-96 transition-transform ease-out duration-500" style={{transform: `translateX(-${current * 100}%)`}}>
                 {children}
             </div>
             <div className="absolute inset-0 flex items-center justify-between p-3">

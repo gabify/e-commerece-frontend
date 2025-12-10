@@ -19,20 +19,20 @@ const categories = [
 
     const carousel1 = () =>{
         return(
-            <div className='bg-hero-1 bg-cover w-screen min-w-full snap-center shrink-0 p-5'>
-                <h1 className="px-2 py-1 bg-amber-400 inline font-bebas text-xl text-gray-50">Craft your world.</h1>
-                <h2 className="text-gray-50 text-4xl -mb-1 mt-4">Build with Style.</h2>
-                <p className="text-sm text-gray-300">Everything you need to craft your next adventure.</p>
+            <div className='bg-hero-1 bg-center bg-cover w-screen max-h-screen min-w-full snap-center shrink-0 p-5'>
+                <h1 className="px-2 py-1 bg-amber-400 inline font-bebas text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-50">Craft your world.</h1>
+                <h2 className="text-gray-50 text-4xl sm:text-6xl md:text-7xl lg:text-8xl -mb-1 mt-4 md:mt-10 lg:mt-20">Build with Style.</h2>
+                <p className="text-sm sm:text-md md:text-lg lg:tracking-tight text-gray-300">Everything you need to craft your next adventure.</p>
             </div>
         )
     }
 
     const carousel2 = () =>{
         return(
-            <div className='bg-hero-2 bg-cover w-screen min-w-full shrink-0 p-5'>
-                <h2 className="text-gray-50 text-2xl -mb-1 mt-4 font-bebas">Gear Up for Your Next Quest.</h2>
-                <p className="text-xs text-gray-300">Explore confidently with premium Minecraft gear.</p>
-                <button className="bg-amber-400 px-2 py-0.5 rounded-lg text-gray-50 font-bebas cursor-pointer hover:text-gray-300">
+            <div className='bg-hero-2 bg-cover bg-center w-screen min-w-full shrink-0 p-5'>
+                <h2 className="text-gray-50 text-2xl sm:text-4xl md:text-5xl lg:text-6xl lg:-mb-2 -mb-1 mt-4 font-bebas">Gear Up for Your Next Quest.</h2>
+                <p className="text-xs sm:text-md md:text-lg font-light text-gray-300 mb-2">Explore confidently with premium Minecraft gear.</p>
+                <button className="bg-amber-400 px-1.5 sm:px-3 sm:py-1 rounded-sm text-gray-50 font-bebas cursor-pointer hover:text-gray-300 sm:text-2xl">
                     Shop Now!
                 </button>
             </div>
@@ -41,29 +41,30 @@ const categories = [
 
     const carousel3 = () =>{
         return(
-            <div className='bg-hero-3 bg-cover w-screen snap-center shrink-0 px-4'>
-                <h2 className="text-gray-50 text-xl -mb-1 mt-4 font-bebas">Rare Finds for True Builders.</h2>
-                <p className="text-xs text-gray-300 mb-10">Discover exclusive blocks, skins, and collectibles.</p>
+            <div className='bg-hero-3 bg-cover bg-center w-screen snap-center shrink-0 px-4'>
+                <h2 className="text-gray-50 text-xl sm:text-4xl md:text-5xl lg:text-6xl -mb-1 mt-4 font-bebas">Rare Finds for True Builders.</h2>
+                <p className="text-xs sm:text-md md:text-lg lg:tracking-tight font-light text-gray-300 mb-10">Discover exclusive blocks, skins, and collectibles.</p>
             </div>
         )
     }
 
     const carousel4 = () =>{
         return(
-            <div className='bg-hero-4 bg-cover w-screen snap-center shrink-0 px-4'>
-                <h2 className="text-gray-50 text-3xl -mb-2 mt-4 font-bebas text-center tracking-wide">Fast Delivery</h2>
-                <h2 className="text-red-700 text-shadow-md text-xl font-bebas text-center mb-7">No Redstone Required.</h2>
-                <p className="text-xs text-gray-300">Quick, easy, and creeper-proof checkout.</p>
-                <p className="text-xs text-gray-300">Your favorite Minecraft items delivered like magic.</p>
+            <div className='bg-hero-4 bg-cover bg-center w-screen snap-center shrink-0 px-4 flex flex-col'>
+                <div className="flex flex-col items-center justify-center mb-10 sm:mb-20 md:mb-30">
+                    <h2 className="text-gray-50 text-3xl sm:text-5xl md:text-6xl -mb-1 mt-4 font-bebas text-center tracking-wide">Fast Delivery</h2>
+                    <h2 className="bg-amber-500/75 text-white px-3 inline-block text-shadow-md text-xl md:text-2xl font-bebas text-center">No Redstone Required.</h2>
+                </div>
+                <p className="text-xs sm:text-md md:text-lg md:tracking-tight font-light text-center text-gray-50">Your favorite Minecraft items delivered like magic.</p>
             </div>
         )
     }
 
     const carousel5 = () =>{
         return(
-            <div className='bg-hero-5 bg-cover w-screen snap-center shrink-0 px-4'>
-                <h2 className="text-gray-50 text-center text-xl -mb-1.5 mt-4 font-bebas">Build. Trade. Play. Repeat.</h2>
-                <p className="text-xs text-gray-300 mb-10">Join thousands of crafters leveling up their world.</p>
+            <div className='bg-hero-5 bg-cover bg-center w-screen snap-center shrink-0 px-4'>
+                <h2 className="text-gray-50 text-center text-xl sm:text-4xl md:text-5xl -mb-1.5 mt-4 font-bebas"><span className="text-amber-300">Build.</span> Trade. <span className="text-amber-300">Play.</span> Repeat.</h2>
+                <p className="text-xs sm:text-md md:text-lg md:tracking-tight font-light text-center text-gray-50 mb-10">Join thousands of crafters leveling up their world.</p>
             </div>
         )
     }
@@ -81,8 +82,8 @@ const Home = () =>{
         <>
         <Header />
             <Main>
-                <section className="max-w-2xl mx-auto mb-10">
-                    <Carousel autoSlide={true} autoSlideInterval={5000}>
+                <section className="lg:max-w-4xl xl:max-w-max mx-auto mb-10">
+                    <Carousel>
                         {slides.map((CarouselBanner, index) =>(
                             <CarouselBanner key={index}/>
                         ))}
