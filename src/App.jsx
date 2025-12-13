@@ -29,6 +29,7 @@ import Error from "../src/pages/others/Error";
 import AuthRoutes from "../src/routes/AuthRoutes.jsx";
 import CustomerRoutes from "../src/routes/CustomerRoutes.jsx";
 import AdminRoutes from "../src/routes/AdminRoutes.jsx";
+import PublicRoutes from "./routes/PublicRoutes.jsx";
 
 
 
@@ -66,10 +67,12 @@ function App() {
         </Route>
 
         {/*Public Routes */}
-        <Route path="/" element={<Home />}/>
-        <Route path="/products" element={<PublicProducts />}/>
-        <Route path="/products/:id" element={<ViewProduct />}/>
-        <Route path="/categories/:id" element= {<Category />}/>
+        <Route element={<PublicRoutes />}>
+          <Route path="/" element={<Home />}/>
+          <Route path="/products" element={<PublicProducts />}/>
+          <Route path="/products/:id" element={<ViewProduct />}/>
+          <Route path="/categories/:id" element= {<Category />}/>
+        </Route>
         
         {/*Error and Misc Pages */}
         <Route path="/loading" element={<Loading />}/>

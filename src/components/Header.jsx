@@ -29,10 +29,10 @@ const Header = () =>{
                             id="search-query" 
                             name="query" 
                             placeholder="What are you looking for...."
-                            className="border-y-2 border-s-2 outline-0 rounded-s-md py-2 ps-2 flex-1 placeholder:text-gray-400 text-gray-900 text-sm"
+                            className="border-y-2 border-s-2 border-gray-400 outline-0 rounded-s-md py-2 ps-2 flex-1 placeholder:text-gray-400 text-gray-900 text-sm"
                         />
-                        <button type="submit" className="border-y-2 border-e-2 px-2 py-2 rounded-e-md block cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5">
+                        <button type="submit" className="border-y-2 border-e-2 border-gray-400 px-2 py-2 rounded-e-md block cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 text-gray-400">
                                 <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
                             </svg>
                         </button>
