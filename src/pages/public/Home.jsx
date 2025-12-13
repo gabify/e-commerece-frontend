@@ -105,7 +105,7 @@ const Home = () =>{
         <>
         <Header />
             <Main>
-                <section className="lg:max-w-4xl xl:max-w-max mx-auto mb-10">
+                <section className="lg:max-w-4xl xl:max-w-max mx-auto mb-5">
                     <Carousel autoSlide={true}>
                         {slides.map((CarouselBanner, index) =>(
                             <CarouselBanner key={index}/>
@@ -113,11 +113,11 @@ const Home = () =>{
                     </Carousel>
                 </section>
 
-                <section className="p-2 text-gray-700 mb-10">
+                <section className="p-2 bg-white text-gray-700 mb-5">
                     <h3 className="font-bold">Categories</h3>
                     <Slider>
                         {categories.map((c, i) => (
-                            <div className="p-3 w-24 md:w-56 rounded-md hover:bg-gray-100" key={i}>
+                            <article className="p-3 w-24 md:w-56 rounded-md hover:bg-gray-100" key={i}>
                                {c.thumbnail === '' ? (
                                     <div className="mx-auto rounded-md w-20 md:w-48 h-20 md:h-48 bg-amber-400 text-center text-xs text-white">
                                         <span className="mt-20">Image Unavailable</span>
@@ -126,27 +126,96 @@ const Home = () =>{
                                     <img src={`http://localhost:3000/category/thumbnails/${c.thumbnail}`} alt="" className="mx-auto rounded-md w-20 md:w-48 h-20 md:h-48"/>
                                )}
                                 <h5 className="text-xs text-center truncate font-light">{c.category_name}</h5>
-                            </div>
+                            </article>
                         ))}
                     </Slider>
                 </section>
 
-                <section className="p-3 text-gray-700 mb-10">
-                    <h3 className="font-bold">Featured Products</h3>
+                <section className="py-4 px-3 text-gray-700 mb-5 bg-white">
+                    <article className="flex justify-between mb-3">
+                        <h3 className="font-bold">New Arrival</h3>
+                        <h3 className="font-bold text-amber-500 cursor-pointer md:hidden">See More</h3>
+                    </article>
                     <Slider>
                         {products.map((p, i) =>(
-                            <div className="p-3 w-24 md:w-56 rounded-md hover:bg-gray-100" key={i}>
+                            <article className="w-56 md:w-56 rounded-md bg-gray-50 hover:bg-white" key={i}>
                                {p.thumbnail === '' ? (
                                     <div className="mx-auto rounded-md w-20 md:w-48 h-20 md:h-48 bg-amber-400 text-center text-xs text-white">
                                         <span className="mt-20">Image Unavailable</span>
                                     </div>
                                ) : (
-                                    <img src={`http://localhost:3000/product/thumbnails/${p.thumbnail}`} alt="" className="mx-auto rounded-md w-20 md:w-48 h-20 md:h-48"/>
+                                    <img src={`http://localhost:3000/product/thumbnails/${p.thumbnail}`} alt="" className="mx-auto rounded-t-md object-cover"/>
                                )}
-                                <h5 className="text-xs text-center truncate font-light">{p.name}</h5>
-                            </div>
+                               <div className="px-3 py-2">
+                                    <h5 className="truncate font-bold">{p.name}</h5>
+                                    <p className="font-bold text-amber-500 mb-2">₱ {p.price}</p>
+                                    <button className="bg-amber-400 px-3 py-1.5 rounded-md font-bold text-gray-50 text-xs cursor-pointer hover:bg-amber-500">Add to Cart</button>
+                               </div>
+                            </article>
                         ))}
                     </Slider>
+                    <article className="mt-5 flex justify-center">
+                        <button className="hidden bg-amber-400 px-3 py-1.5 rounded-md font-bold text-gray-50 text-lg cursor-pointer md:block hover:bg-amber-500">See More</button>
+                    </article>
+                </section>
+
+                <section className="py-4 px-3 bg-white text-gray-700 mb-10">
+                    <article className="flex justify-between mb-3">
+                        <h3 className="font-bold">Best Seller</h3>
+                        <h3 className="font-bold text-amber-500 cursor-pointer md:hidden">See More</h3>
+                    </article>
+                    <Slider>
+                        {products.map((p, i) =>(
+                            <article className="w-56 md:w-56 rounded-md bg-gray-50 hover:bg-white" key={i}>
+                               {p.thumbnail === '' ? (
+                                    <div className="mx-auto rounded-md w-20 md:w-48 h-20 md:h-48 bg-amber-400 text-center text-xs text-white">
+                                        <span className="mt-20">Image Unavailable</span>
+                                    </div>
+                               ) : (
+                                    <img src={`http://localhost:3000/product/thumbnails/${p.thumbnail}`} alt="" className="mx-auto rounded-t-md object-cover"/>
+                               )}
+                               <div className="px-3 py-2">
+                                    <h5 className="truncate font-bold">{p.name}</h5>
+                                    <p className="font-bold text-amber-500 mb-2">₱ {p.price}</p>
+                                    <button className="bg-amber-400 px-3 py-1.5 rounded-md font-bold text-gray-50 text-xs cursor-pointer hover:bg-amber-500">Add to Cart</button>
+                               </div>
+                            </article>
+                        ))}
+                    </Slider>
+                    <article className="mt-5 flex justify-center items-center">
+                        <button className="hidden bg-amber-400 px-3 py-1.5 rounded-md font-bold text-gray-50 text-lg cursor-pointer md:block hover:bg-amber-500">See More</button>
+                    </article>
+                </section>
+
+                <section className="py-20 flex justify-center items-center max-md:flex-col">
+                    <article className="text-center rounded-md bg-white px-10 py-20 m-3 shadow-sm max-w-96">
+                        <h3 className="text-2xl font-bebas -mb-2">Rare Potion Bundle</h3>
+                        <p className="font-light text-sm mb-5">Potions found on Nether and End</p>
+
+                        <h4 className="text-4xl font-sans font-bold text-amber-400 mb-5">₱ 249.99</h4>
+                        <p className="text-sm font-light mb-10">High quality potions that can only be found on Nether and End World.</p>
+                        <button className="border-amber-500 border-2 px-10 py-5 text-amber-500 rounded-md font-bold cursor-pointer hover:bg-amber-500 hover:text-gray-50 transition-all">Buy Now</button>
+                    </article>
+                    <article className="text-center rounded-md bg-white shadow-sm border-2 border-amber-500 max-w-96 max-md:m-3">
+                        <div className="py-2 bg-gray-50 rounded-t-md shadow-xs">
+                            <p className="text-amber-500">Limited Stocks only!</p>
+                        </div>
+                        <div className="px-10 py-20">
+                            <h3 className="text-2xl font-bebas -mb-2">Armor Weapon Bundle Bundle</h3>
+                            <p className="font-light text-sm mb-5">Weapons and Armors that may contain rare Enchantment</p>
+                            <h4 className="text-4xl font-sans font-bold text-amber-400 mb-5">₱ 499.99</h4>
+                            <p className="text-sm font-light mb-10">Slay mobs with ease, stay awake at night without dying, rule the overworld with an iron first!</p>
+                            <button className="bg-amber-400 text-gray-50 px-10 py-5 rounded-md font-bold cursor-pointer hover:bg-amber-500 transition-all">Buy Now</button>
+                        </div>
+                    </article>
+                    <article className="text-center rounded-md bg-white px-10 py-20 m-3 shadow-sm max-w-96">
+                        <h3 className="text-2xl font-bebas -mb-2">Enchanted Tools Bundle</h3>
+                        <p className="font-light text-sm mb-5">Tools with rare Enchantments</p>
+
+                        <h4 className="text-4xl font-sans font-bold text-amber-400 mb-5">₱ 249.99</h4>
+                        <p className="text-sm font-light mb-10">Multiple varities of enchanments with long lasting effects</p>
+                        <button className="border-amber-500 border-2 px-10 py-5 text-amber-500 rounded-md font-bold cursor-pointer hover:bg-amber-500 hover:text-gray-50 transition-all">Buy Now</button>
+                    </article>
                 </section>
             </Main>
         <Footer />

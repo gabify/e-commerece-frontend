@@ -1,6 +1,6 @@
 const Slider = ({children}) => {
     return(
-        <article className="flex overflow-x-auto slider md:grid md:grid-cols-4 lg:grid-cols-5">
+        <article className="flex gap-3 overflow-x-auto slider md:grid md:grid-cols-4 lg:grid-cols-5">
             {children}
         </article>
     )
